@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
-import { Mail, Settings, ShoppingCart, FileText, LogOut, Plus, Trash2, Eye, Download } from 'lucide-react';
+// Importaciones no usadas comentadas
 
 const TechniProPresupuestos = () => {
   const [tab, setTab] = useState('precios');
