@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
-// Importaciones no usadas comentadas
 
-const TechniProPresupuestos = () => {
+const TecniProPresupuestos = () => {
   const [tab, setTab] = useState('precios');
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [authToken, setAuthToken] = useState(null);
   const [config, setConfig] = useState(() => {
     const saved = localStorage.getItem('tecnipro-config');
     return saved ? JSON.parse(saved) : {
@@ -20,7 +18,6 @@ const TechniProPresupuestos = () => {
   
   const [presupuesto, setPresupuesto] = useState([]);
   const [clientData, setClientData] = useState({ nombre: '', empresa: '', telefono: '', email: '' });
-  const [previewPDF, setPreviewPDF] = useState(null);
   const [filtroCategoria, setFiltroCategoria] = useState('todos');
   const [margenActual, setMargenActual] = useState(config.margenDefault);
   const [categoriasOpciones, setCategoriasOpciones] = useState(['todos']);
@@ -57,7 +54,7 @@ const TechniProPresupuestos = () => {
           const cellC = row.values[2]?.userEnteredValue?.stringValue || '';
           const cellD = row.values[3]?.userEnteredValue?.numberValue || 0;
           
-          // Si es encabezado de categoría (texto en A que dice "y" o contiene "y")
+          // Si es encabezado de categoría
           if (cellA && !cellB && cellA.includes('y')) {
             currentCategory = cellA.trim();
             allCategories.add(currentCategory);
@@ -115,11 +112,9 @@ const TechniProPresupuestos = () => {
 
   const generarPDF = async () => {
     const pdf = new jsPDF();
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
     let yPosition = 20;
 
-    // Header con logo y datos de TecniPro
+    // Header
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(16);
     pdf.text('TECNIPRO', 20, yPosition);
@@ -169,19 +164,12 @@ const TechniProPresupuestos = () => {
       pdf.text(`$${precio.toFixed(0)}`, colX[3], yPosition);
       pdf.text(`$${total.toFixed(0)}`, colX[4], yPosition);
       yPosition += 6;
-
-      if (yPosition > pageHeight - 30) {
-        pdf.addPage();
-        yPosition = 20;
-      }
     });
 
     // Total
     yPosition += 8;
     pdf.setFont('helvetica', 'bold');
     pdf.text(`TOTAL: $${totalGeneral.toFixed(0)}`, colX[4] - 40, yPosition);
-
-    setPreviewPDF(pdf.output('datauri'));
   };
 
   const descargarPDF = async () => {
@@ -194,11 +182,9 @@ const TechniProPresupuestos = () => {
     const nombreArchivo = `TecniPro-${fecha}-${clientData.nombre.replace(/\s+/g, '')}-001`;
     const pdf = new jsPDF();
     
-    // Generar PDF (simplificado)
     pdf.text(`PRESUPUESTO - ${clientData.nombre}`, 20, 20);
     pdf.save(`${nombreArchivo}.pdf`);
 
-    // Aquí iría la carga a Google Drive
     alert('PDF guardado. Próximamente se subará automático a Google Drive.');
   };
 
@@ -438,4 +424,4 @@ const TechniProPresupuestos = () => {
   );
 };
 
-export default TechniProPresupuestos;
+export default TecniProPresupuestos;
