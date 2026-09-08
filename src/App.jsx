@@ -27,7 +27,7 @@ const TecniProPresupuestos = () => {
     setLoading(true);
     try {
       const sheetId = '1iu-qsCOJ9FsHdajPlHr06FjFyfwsotRfRX2dtGFWit8';
-      const apiKey = 'AIzaSyDxJBWDjQr5D1V0LKt0g8K7jeFvgLmvqKQ';
+      const apiKey = 'AIzaSyBm6yFqSRYCyMwass94G3aR4XeLpwulfMl';
       
       const response = await fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?includeGridData=true&key=${apiKey}`
